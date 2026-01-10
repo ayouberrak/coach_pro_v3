@@ -1,0 +1,115 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Dashboard Coach - CoachPro{% endblock %}
+
+{% block content %}
+<div class="dashboard-content">
+    <div class="mb-8">
+        <h1 class="text-white font-bold" style="font-size: 2rem;">Bonjour, Coach!</h1>
+        <p class="text-gray">Voici un aperçu de vos activités aujourd'hui.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="card stat-card">
+            <h3>CLIENTS ACTIFS</h3>
+            <div class="stat-value">{{ stats.active_clients|default(12) }}</div>
+            <div class="stat-trend">
+                <i class="fa-solid fa-arrow-trend-up"></i> +4 ce mois
+            </div>
+        </div>
+        <div class="card stat-card">
+            <h3>SÉANCES DU JOUR</h3>
+            <div class="stat-value">{{ stats.today_sessions|default(4) }}</div>
+             <div class="stat-trend" style="color: var(--warning);">
+                <i class="fa-solid fa-clock"></i> 2 en attente
+            </div>
+        </div>
+        <div class="card stat-card">
+            <h3>REVENUS (Mensuel)</h3>
+            <div class="stat-value">{{ stats.monthly_revenue|default('4.5k') }} MAD</div>
+            <div class="stat-trend">
+                <i class="fa-solid fa-arrow-trend-up"></i> +12% vs dernier mois
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Sessions Table -->
+    <div class="card">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-white font-bold" style="font-size: 1.25rem;">Prochaines Séances</h2>
+            <a href="/coach/sessions" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Voir Tout</a>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Type</th>
+                        <th>Date & Heure</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in upcoming_sessions %}
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                {{ session.client_name }}
+                            </div>
+                        </td>
+                        <td>{{ session.type }}</td>
+                        <td>{{ session.date }}</td>
+                        <td>
+                            <span class="status status-{{ session.status_class|default('pending') }}">
+                                {{ session.status }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-outline" style="padding: 0.25rem 0.5rem; border:none; color: var(--text-gray);">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <!-- Dummy Data if empty -->
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                Ahmet Yildiz
+                            </div>
+                        </td>
+                        <td>Crossfit</td>
+                        <td>10 Jan, 14:00</td>
+                        <td><span class="status status-pending">Confirmé</span></td>
+                        <td>...</td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                Sarah Connor
+                            </div>
+                        </td>
+                        <td>Yoga</td>
+                        <td>10 Jan, 16:00</td>
+                        <td><span class="status status-active">En cours</span></td>
+                        <td>...</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
