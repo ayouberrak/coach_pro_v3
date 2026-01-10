@@ -1,0 +1,36 @@
+<aside class="sidebar">
+    <nav class="sidebar-nav">
+        <!-- Common Links -->
+        <a href="/dashboard" class="sidebar-item active">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+
+        {# Role Based Navigation Logic #}
+        {% if user_role == 'coach' %}
+            <div class="sidebar-label" style="padding: 1rem; font-size: 0.75rem; color: #6b6b6b; text-transform: uppercase; font-weight: 600;">Coach Menu</div>
+            
+            <a href="/coach/sessions" class="sidebar-item">
+                <i class="fa-solid fa-calendar-check"></i> Mes Séances
+            </a>
+            <a href="/coach/clients" class="sidebar-item">
+                <i class="fa-solid fa-users"></i> Mes Clients
+            </a>
+            <a href="/coach/availability" class="sidebar-item">
+                <i class="fa-solid fa-clock"></i> Disponibilités
+            </a>
+
+        {% else %}
+            <div class="sidebar-label" style="padding: 1rem; font-size: 0.75rem; color: #6b6b6b; text-transform: uppercase; font-weight: 600;">Espace Sportif</div>
+            
+            <a href="/sportif/coaches" class="sidebar-item">
+                <i class="fa-solid fa-dumbbell"></i> Trouver un Coach
+            </a>
+            <a href="/sportif/reservations" class="sidebar-item">
+                <i class="fa-solid fa-calendar-days"></i> Mes Réservations
+            </a>
+            <a href="/sportif/history" class="sidebar-item">
+                <i class="fa-solid fa-clock-rotate-left"></i> Historique
+            </a>
+        {% endif %}
+    </nav>
+</aside>
