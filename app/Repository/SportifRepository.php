@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
 use Repository\UserRepository;
 use App\Models\User;
@@ -21,7 +21,7 @@ class SportifRepository {
         try {
             $userId = (int)$this->db->lastInsertId();
 
-            $stmt = $this->db->prepare("INSERT INTO sportifs (id_client, telephone) 
+            $stmt = $this->db->prepare("INSERT INTO client (id_client, telephone) 
                                         VALUES (:id_client, :telephone)");
             $stmt->bindValue(':id_client', $userId);
             $stmt->bindValue(':telephone', $sportif->getNumeroTelephone());
