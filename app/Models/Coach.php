@@ -2,7 +2,7 @@
 namespace App\Models;
 
 class Coach extends User {
-    private int $id_coach;
+    private ?int $id_coach;
 
     private string $biographie;
     private string $photo;
@@ -11,8 +11,8 @@ class Coach extends User {
 
     
 
-    public function __construct(int $id, string $firstName, string $lastName, string $email, string $passwordHash, int $role,
-                                int $id_coach, string $biographie, string $photo, int $annee_experience, string $certefications) {
+    public function __construct(?int $id = null, string $firstName, string $lastName, string $email, string $passwordHash, int $role,
+                                ?int $id_coach = null, string $biographie, string $photo, int $annee_experience, string $certefications) {
         parent::__construct($id, $firstName, $lastName, $email, $passwordHash, $role);
         $this->id_coach = $id_coach;
         $this->biographie = $biographie;
