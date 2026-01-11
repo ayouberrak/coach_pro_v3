@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace App\Repository;
 
 use App\Models\User;
 use App\Models\Coach;
