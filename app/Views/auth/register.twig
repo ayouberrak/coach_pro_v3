@@ -1,2 +1,150 @@
-<!-- Register View -->
-<form>Register</form>
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S'inscrire - CoachPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f1014',
+                        darkCard: '#18191e',
+                        darkInput: '#23242a',
+                        primaryGold: '#cfaa58',
+                        primaryGoldHover: '#e0b045',
+                        borderGray: '#2a2b30',
+                    },
+                    fontFamily: { outfit: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-darkBg font-outfit min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-[550px]">
+        <div class="text-center mb-6">
+            <h1 class="text-4xl font-bold text-white tracking-tight">
+                Coach<span class="text-primaryGold">Pro</span>
+            </h1>
+            <p class="text-gray-400 mt-2 text-sm">Créez votre compte pour commencer</p>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-2xl p-6 lg:p-8 shadow-2xl">
+            <form action="/register" method="POST" enctype="multipart/form-data" class="space-y-4">
+                
+                {# Nom & Prénom #}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-400 text-xs font-semibold mb-1.5 ml-1 uppercase">Nom</label>
+                        <input type="text" name="nom" required placeholder="Nom"
+                               class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-xs font-semibold mb-1.5 ml-1 uppercase">Prénom</label>
+                        <input type="text" name="prenom" required placeholder="Prénom"
+                               class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold transition-all">
+                    </div>
+                </div>
+
+                {# Email #}
+                <div>
+                    <label class="block text-gray-400 text-xs font-semibold mb-1.5 ml-1 uppercase">Email</label>
+                    <input type="email" name="email" required placeholder="votre@email.com"
+                           class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold transition-all">
+                </div>
+
+                {# Password #}
+                <div>
+                    <label class="block text-gray-400 text-xs font-semibold mb-1.5 ml-1 uppercase">Mot de passe</label>
+                    <input type="password" name="password" required placeholder="••••••••"
+                           class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold transition-all">
+                </div>
+
+                {# Role Selection #}
+                <div>
+                    <label class="block text-gray-400 text-xs font-semibold mb-1.5 ml-1 uppercase">Je suis un...</label>
+                    <select id="roleSelect" name="role" required 
+                            class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold cursor-pointer appearance-none">
+                        <option value="" disabled selected>Choisir votre rôle</option>
+                        {% for role in roles %}
+                            <option value="{{ role.id_role }}">
+                                {{ role.type_role }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {# --- SECTION COACH (Hidden by default) --- #}
+                <div id="divCoach" class="hidden animate-fade-in space-y-4 p-4 bg-primaryGold/5 border border-dashed border-primaryGold/30 rounded-2xl">
+                    <p class="text-primaryGold text-[10px] font-bold uppercase tracking-widest mb-2">Détails Professionnels</p>
+                    
+                    <div>
+                        <textarea name="biographie" placeholder="Votre biographie professionnelle..." 
+                                  class="w-full bg-darkInput border border-borderGray text-white p-3 rounded-xl text-sm h-24 outline-none focus:border-primaryGold transition-all"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" name="experience" placeholder="Années d'expérience" 
+                               class="bg-darkInput border border-borderGray text-white p-3 rounded-xl text-sm outline-none focus:border-primaryGold">
+                        <input type="text" name="certification" placeholder="Certifications (ex: IFBB)" 
+                               class="bg-darkInput border border-borderGray text-white p-3 rounded-xl text-sm outline-none focus:border-primaryGold">
+                    </div>
+
+                    <div class="relative group">
+                        <label class="block text-gray-500 text-[10px] mb-1 ml-1">PHOTO DE PROFIL</label>
+                        <input type="file" name="photo" 
+                               class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primaryGold file:text-darkBg hover:file:bg-primaryGoldHover cursor-pointer">
+                    </div>
+                </div>
+
+                {# --- SECTION CLIENT (Hidden by default) --- #}
+                <div id="divClient" class="hidden animate-fade-in p-4 bg-primaryGold/5 border border-dashed border-primaryGold/30 rounded-2xl">
+                    <label class="block text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-2">Contact</label>
+                    <input type="tel" name="telephone" placeholder="Numéro de téléphone (ex: 06...)" 
+                           class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold transition-all">
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-primaryGold hover:bg-primaryGoldHover text-darkBg font-bold py-4 rounded-xl transition-all shadow-lg shadow-primaryGold/10 mt-4 transform hover:-translate-y-1 active:scale-95">
+                    Créer mon compte
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-500">
+                    Déjà inscrit ? 
+                    <a href="{{url('/login')}}" class="text-primaryGold font-bold ml-1 hover:underline">Se connecter</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roleSelect = document.getElementById('roleSelect');
+        const divCoach = document.getElementById('divCoach');
+        const divClient = document.getElementById('divClient');
+
+        roleSelect.addEventListener('change', function() {
+            // Reset
+            divCoach.classList.add('hidden');
+            divClient.classList.add('hidden');
+            
+            // Show based on selection
+            if (this.value === '2') {
+                divCoach.classList.remove('hidden');
+            } else if (this.value === '1') {
+                divClient.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

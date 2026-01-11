@@ -1,38 +1,74 @@
-{% extends "layouts/base.twig" %}
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - CoachPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f1014',
+                        darkCard: '#18191e',
+                        darkInput: '#23242a',
+                        primaryGold: '#cfaa58',
+                        primaryGoldHover: '#e0b045',
+                        borderGray: '#2a2b30',
+                    },
+                    fontFamily: { outfit: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg font-outfit h-full flex items-center justify-center p-4">
 
-{% block title %}Connexion - CoachPro{% endblock %}
-
-{% block content %}
-<div class="flex items-center justify-center" style="min-height: 80vh;">
-    <div class="card" style="width: 100%; max-width: 400px; padding: 2.5rem;">
+    <div class="w-full max-w-[400px]">
         <div class="text-center mb-8">
-            <h1 class="logo mb-4" style="font-size: 2rem;">Coach<span>Pro</span></h1>
-            <p class="text-gray">Bienvenue ! Connectez-vous à votre espace.</p>
+            <h1 class="text-3xl font-bold text-white tracking-tight">
+                Coach<span class="text-primaryGold">Pro</span>
+            </h1>
+            <p class="text-gray-400 mt-2 text-sm">Bienvenue ! Connectez-vous à votre espace.</p>
         </div>
 
-        <form action="/login" method="POST">
-            <div class="mb-4">
-                <label class="block text-gray mb-2" style="font-size: 0.9rem;">Email</label>
-                <input type="email" name="email" 
-                       style="width: 100%; padding: 0.75rem; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 8px; outline: none;"
-                       placeholder="exemple@email.com" required>
-            </div>
-            
-            <div class="mb-8">
-                <label class="block text-gray mb-2" style="font-size: 0.9rem;">Mot de passe</label>
-                <input type="password" name="password"
-                       style="width: 100%; padding: 0.75rem; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 8px; outline: none;"
-                       placeholder="Votre mot de passe" required>
-            </div>
+        <div class="bg-darkCard border border-borderGray rounded-2xl p-8 shadow-2xl">
+            {# Message d'erreur simple Twig #}
+            {% if error is defined and error %}
+                <div class="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-xl mb-6 text-xs text-center">
+                    {{ error }}
+                </div>
+            {% endif %}
 
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                Se Connecter
-            </button>
-        </form>
+            <form action="/login" method="POST" class="space-y-6">
+                <div>
+                    <label class="block text-gray-400 text-sm font-medium mb-2">Email</label>
+                    <input type="email" name="email" placeholder="exemple@email.com" required
+                           class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold focus:ring-1 focus:ring-primaryGold transition-all duration-200">
+                </div>
 
-        <div class="text-center mt-6">
-            <a href="#" class="text-gray" style="font-size: 0.9rem;">Mot de passe oublié?</a>
+                <div>
+                    <label class="block text-gray-400 text-sm font-medium mb-2">Mot de passe</label>
+                    <input type="password" name="password" placeholder="••••••••" required
+                           class="w-full bg-darkInput border border-borderGray text-white px-4 py-3 rounded-xl outline-none focus:border-primaryGold focus:ring-1 focus:ring-primaryGold transition-all duration-200">
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-primaryGold hover:bg-primaryGoldHover text-darkBg font-bold py-3 rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-primaryGold/10">
+                    Se Connecter
+                </button>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-500 font-outfit">
+                    Pas encore de compte ? 
+                    <a href="{{url('/register')}}" class="text-primaryGold hover:underline transition font-bold ml-1">S'inscrire</a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
+
+</body>
+</html>

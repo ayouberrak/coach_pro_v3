@@ -13,6 +13,8 @@ class Controller {
             'cache' => false,  
             'debug' => true,   
         ]);
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+
         $scriptName = $_SERVER['SCRIPT_NAME']; 
         $dir = dirname($scriptName);           
         $dir = str_replace('\\', '/', $dir);   

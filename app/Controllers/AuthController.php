@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use Core\Controller;
 use Services\AuthServices;
+use App\Services\RolesServices;
 
 
 class AuthController extends Controller {
@@ -11,8 +12,9 @@ class AuthController extends Controller {
         $this->render('auth/login.twig');
     }
 
-    public function handleLogin() {
-        // Mock login logic
-        echo "Login processing...";
+    public function register() {
+        $roleService = new RolesServices();
+        $roles = $roleService->getAllRoles();
+        $this->render('auth/register.twig', ['roles' => $roles]);
     }
 }
