@@ -18,9 +18,19 @@ class Controller {
         $dir = str_replace('\\', '/', $dir);   
         if ($dir === '/') $dir = '';           
         $this->twig->addGlobal('base_url', $dir);
+
+        $this->helperUrl();
     }
 
     protected function render($view, $data = []) {
         echo $this->twig->render($view, $data);
     }
+
+    protected function helperUrl() {
+        $this->twig->addFunction(
+            new \Twig\TwigFunction('url', [\Core\Helpers::class, 'url'])
+        );
+    }
+
+
 }
