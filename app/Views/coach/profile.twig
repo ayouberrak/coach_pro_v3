@@ -1,2 +1,123 @@
-<!-- Coach Profile View -->
-<h1>Coach Profile</h1>
+{% extends "layouts/base.twig" %}
+
+{% block title %}Configuration Profil - CoachPro{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto animate-fade-in pb-20">
+    
+    <div class="mb-10 flex flex-col md:flex-row justify-between items-end gap-4">
+        <div>
+            <h1 class="text-white font-black tracking-tighter uppercase text-4xl">
+                Edit <span class="text-primaryGold">Profile</span>
+            </h1>
+            <p class="text-gray-500 font-medium italic mt-1">Personnalisez votre vitrine professionnelle.</p>
+        </div>
+        <div class="text-right">
+            <span class="text-[10px] bg-primaryGold/10 text-primaryGold px-3 py-1 rounded-full font-black uppercase tracking-widest border border-primaryGold/20">Mode Édition</span>
+        </div>
+    </div>
+
+    <form action="/coach/profile/update" method="POST" enctype="multipart/form-data" class="space-y-8">
+        
+        <div class="bg-darkCard border border-borderGray rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primaryGold/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="relative group">
+                    <div class="w-40 h-40 rounded-[2.5rem] overflow-hidden border-2 border-primaryGold p-1 bg-darkBg shadow-2xl transition-transform group-hover:scale-[1.02]">
+                        <img id="preview" src="{{ coach.photo|default('https://ui-avatars.com/api/?name=' ~ coach.nom ~ '+' ~ coach.prenom ~ '&background=cfaa58&color=0f1014&size=200') }}" 
+                             class="w-full h-full object-cover rounded-[2.2rem]">
+                    </div>
+                    <label for="photo-upload" class="absolute -bottom-2 -right-2 bg-primaryGold hover:bg-white text-darkBg w-12 h-12 rounded-2xl flex items-center justify-center cursor-pointer shadow-xl transition-all hover:rotate-12">
+                        <i class="fa-solid fa-camera text-lg"></i>
+                        <input type="file" id="photo-upload" name="photo" class="hidden" accept="image/*" onchange="previewImage(event)">
+                    </label>
+                </div>
+                
+                <div class="flex-1 text-center md:text-left">
+                    <h3 class="text-white font-black text-xl uppercase tracking-tighter italic">Photo de Profil</h3>
+                    <p class="text-gray-500 text-sm mt-2 max-w-xs font-medium">Une photo pro augmente vos chances de réservations de 40%.</p>
+                    <p class="text-[9px] text-primaryGold font-black uppercase tracking-widest mt-4">JPG, PNG ou WebP • Max 2MB</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-[2.5rem] p-10 shadow-2xl">
+            <div class="flex items-center gap-4 mb-10">
+                <div class="w-1.5 h-8 bg-primaryGold rounded-full"></div>
+                <h2 class="text-2xl font-black italic uppercase tracking-tighter text-white">Détails du Coach</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="group space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2 group-focus-within:text-primaryGold transition-colors">Prénom</label>
+                    <input type="text" name="prenom" value="{{ coach.prenom }}" required
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold shadow-inner">
+                </div>
+
+                <div class="group space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2 group-focus-within:text-primaryGold transition-colors">Nom</label>
+                    <input type="text" name="nom" value="{{ coach.nom }}" required
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold shadow-inner">
+                </div>
+
+                <div class="group space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2 group-focus-within:text-primaryGold transition-colors">Expérience (Ans)</label>
+                    <div class="relative">
+                        <input type="number" name="experience" value="{{ coach.experience }}" 
+                               class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold">
+                        <i class="fa-solid fa-clock-rotate-left absolute right-6 top-1/2 -translate-y-1/2 text-gray-700"></i>
+                    </div>
+                </div>
+
+                <div class="group space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2 group-focus-within:text-primaryGold transition-colors">Diplôme Principal</label>
+                    <input type="text" name="certification" value="{{ coach.certification }}" 
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold">
+                </div>
+
+                <div class="md:col-span-2 group space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] ml-2 group-focus-within:text-primaryGold transition-colors">Ma Biographie</label>
+                    <textarea name="biographie" rows="5" placeholder="Parlez-nous de votre approche..."
+                              class="w-full bg-darkInput border border-borderGray rounded-[2rem] py-5 px-6 text-white focus:border-primaryGold outline-none transition-all font-medium italic leading-relaxed">{{ coach.biographie }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-[2.5rem] p-10 shadow-2xl">
+             <div class="flex items-center gap-4 mb-8">
+                <i class="fa-solid fa-lock text-primaryGold"></i>
+                <h2 class="text-xl font-black italic uppercase tracking-tighter text-white">Sécurité</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <input type="password" name="password" placeholder="Nouveau mot de passe" 
+                       class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold">
+                <input type="password" name="confirm_password" placeholder="Confirmer mot de passe" 
+                       class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-6 text-white focus:border-primaryGold outline-none transition-all font-bold">
+            </div>
+            <p class="text-[9px] text-gray-600 mt-4 italic">* Laissez vide pour conserver le mot de passe actuel.</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center gap-6 pt-6">
+            <button type="submit" class="w-full md:w-auto bg-primaryGold hover:bg-white text-darkBg px-16 py-5 rounded-[1.8rem] font-black text-xs uppercase tracking-[0.3em] transition-all shadow-2xl shadow-primaryGold/20 transform hover:-translate-y-1">
+                Update Profile
+            </button>
+            <a href="/coach/profile" class="text-gray-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-colors">
+                Ignorer les changements
+            </a>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('preview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}
