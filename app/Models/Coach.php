@@ -50,11 +50,11 @@ class Coach extends User {
 
     public static function createFromArrayC(array $data): Coach {
         return new Coach(
-            $data['id'] ?? null,
-            $data['firstName'] ?? '',
-            $data['lastName'] ?? '',
-            $data['email'] ?? '',
-            $data['passwordHash'] ?? '',
+            $data['id'],
+            $data['nom'],
+            $data['prenom'],
+            $data['email'],
+            password_hash($data['password'], PASSWORD_BCRYPT),
             $data['role'] ?? 2,
             $data['id_coach'] ?? null,
             $data['biographie'] ?? '',
@@ -63,5 +63,4 @@ class Coach extends User {
             $data['certefications'] ?? ''
         );
     }
-    
 }
