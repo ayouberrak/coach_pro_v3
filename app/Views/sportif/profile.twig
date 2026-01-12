@@ -1,0 +1,86 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Mon Profil - CoachPro{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto animate-fade-in pb-20">
+    
+    <div class="mb-10">
+        <h1 class="text-white font-black tracking-tighter uppercase" style="font-size: 2.2rem;">Paramètres <span class="text-primaryGold">Profil</span></h1>
+        <p class="text-gray-500 font-medium italic mt-1">Gérez vos informations personnelles et la sécurité de votre compte.</p>
+    </div>
+
+    <form action="/sportif/profile/update" method="POST" class="space-y-8">
+        
+        <div class="bg-darkCard border border-borderGray rounded-[2.5rem] p-8 shadow-2xl">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-10 h-10 bg-primaryGold/10 rounded-xl flex items-center justify-center text-primaryGold">
+                    <i class="fa-solid fa-user-gear text-sm"></i>
+                </div>
+                <h2 class="text-xl font-black italic uppercase tracking-tighter text-white">Informations Personnelles</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Prénom</label>
+                    <input type="text" name="prenom" value="{{ user.prenom }}" 
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Nom de famille</label>
+                    <input type="text" name="nom" value="{{ user.nom }}" 
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Adresse Email</label>
+                    <input type="email" name="email" value="{{ user.email }}" 
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Numéro de Téléphone</label>
+                    <input type="tel" name="telephone" value="{{ user.telephone }}" 
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight"
+                           placeholder="+212 600-000000">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="w-10 h-10 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500">
+                    <i class="fa-solid fa-shield-halved text-sm"></i>
+                </div>
+                <h2 class="text-xl font-black italic uppercase tracking-tighter text-white">Sécurité du compte</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Nouveau Mot de passe</label>
+                    <input type="password" name="new_password" placeholder="••••••••"
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold">
+                    <p class="text-[9px] text-gray-600 font-bold uppercase tracking-tighter ml-2">Laissez vide si vous ne voulez pas changer</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Confirmer le mot de passe</label>
+                    <input type="password" name="confirm_password" placeholder="••••••••"
+                           class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-center gap-4 pt-4">
+            <button type="submit" class="w-full md:w-auto bg-primaryGold hover:bg-yellow-600 text-darkBg px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-xl shadow-primaryGold/10 transform hover:-translate-y-1">
+                Enregistrer les modifications
+            </button>
+            <a href="/sportif/dashboard" class="w-full md:w-auto text-gray-500 hover:text-white font-black text-[10px] uppercase tracking-widest text-center px-8">
+                Annuler
+            </a>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}
