@@ -1,115 +1,178 @@
 {% extends "layouts/base.twig" %}
 
 {% block title %}Dashboard Coach - CoachPro{% endblock %}
+{% block page_name %}Vue d'ensemble{% endblock %}
 
-{% block content %}
-<div class="dashboard-content">
-    <div class="mb-8">
-        <h1 class="text-white font-bold" style="font-size: 2rem;">Bonjour, Coach!</h1>
-        <p class="text-gray">Voici un aperçu de vos activités aujourd'hui.</p>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="stats-grid">
-        <div class="card stat-card">
-            <h3>CLIENTS ACTIFS</h3>
-            <div class="stat-value">{{ stats.active_clients|default(12) }}</div>
-            <div class="stat-trend">
-                <i class="fa-solid fa-arrow-trend-up"></i> +4 ce mois
-            </div>
+{% block body %}
+<div class="max-w-6xl mx-auto space-y-10 animate-fade-in pb-10">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Bonjour, <span class="text-primaryGold">Coach!</span></h1>
+            <p class="text-gray-500 mt-1 font-medium">Voici l'état actuel de votre activité.</p>
         </div>
-        <div class="card stat-card">
-            <h3>SÉANCES DU JOUR</h3>
-            <div class="stat-value">{{ stats.today_sessions|default(4) }}</div>
-             <div class="stat-trend" style="color: var(--warning);">
-                <i class="fa-solid fa-clock"></i> 2 en attente
-            </div>
-        </div>
-        <div class="card stat-card">
-            <h3>REVENUS (Mensuel)</h3>
-            <div class="stat-value">{{ stats.monthly_revenue|default('4.5k') }} MAD</div>
-            <div class="stat-trend">
-                <i class="fa-solid fa-arrow-trend-up"></i> +12% vs dernier mois
-            </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-widest bg-darkCard border border-borderGray px-4 py-2 rounded-full">
+                {{ "now"|date("d M Y") }}
+            </span>
         </div>
     </div>
 
-    <!-- Upcoming Sessions Table -->
-    <div class="card">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-white font-bold" style="font-size: 1.25rem;">Prochaines Séances</h2>
-            <a href="/coach/sessions" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Voir Tout</a>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-darkCard border border-borderGray rounded-[2rem] p-6 relative overflow-hidden group">
+            <div class="flex justify-between items-start mb-4">
+                <div class="p-3 bg-primaryGold/10 rounded-2xl text-primaryGold">
+                    <i class="fa-solid fa-users text-xl"></i>
+                </div>
+                <div class="text-[10px] font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+4</div>
+            </div>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest">Clients Actifs</h3>
+            <div class="text-3xl font-black text-white mt-1">12</div>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-[2rem] p-6 text-white group">
+            <div class="flex justify-between items-start mb-4">
+                <div class="p-3 bg-blue-500/10 rounded-2xl text-blue-500">
+                    <i class="fa-solid fa-calendar-day text-xl"></i>
+                </div>
+                <div class="text-[10px] font-bold text-orange-400 bg-orange-400/10 px-2 py-1 rounded-lg shadow-sm">2 en attente</div>
+            </div>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest">Séances du jour</h3>
+            <div class="text-3xl font-black mt-1">04</div>
+        </div>
+
+        <div class="bg-darkCard border border-borderGray rounded-[2rem] p-6 text-white group">
+            <div class="flex justify-between items-start mb-4">
+                <div class="p-3 bg-green-500/10 rounded-2xl text-green-500">
+                    <i class="fa-solid fa-wallet text-xl"></i>
+                </div>
+                <div class="text-[10px] font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-lg italic">+12%</div>
+            </div>
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-widest">Revenus (MAD)</h3>
+            <div class="text-3xl font-black mt-1">4,500 <span class="text-sm font-normal text-gray-500">MAD</span></div>
+        </div>
+    </div>
+
+    <div class="bg-darkCard border border-borderGray rounded-[2.5rem] overflow-hidden shadow-2xl transition-all">
+        <div class="p-8 border-b border-borderGray flex justify-between items-center bg-white/[0.01]">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-primaryGold shadow-[0_0_12px_#cfaa58]"></div>
+                <h2 class="text-xl font-bold tracking-tight italic text-white">Demandes de Réservations</h2>
+            </div>
+            <span class="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">En attente de réponse</span>
         </div>
         
-        <div class="table-container">
-            <table>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr>
-                        <th>Client</th>
-                        <th>Type</th>
-                        <th>Date & Heure</th>
-                        <th>Statut</th>
-                        <th>Action</th>
+                    <tr class="text-[10px] font-black text-gray-500 uppercase tracking-widest border-b border-borderGray/30 bg-white/[0.01]">
+                        <th class="px-8 py-5">Sportif</th>
+                        <th class="px-8 py-5">Type de séance</th>
+                        <th class="px-8 py-5 text-center">Date & Heure</th>
+                        <th class="px-8 py-5 text-right">Actions rapides</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for session in upcoming_sessions %}
-                    <tr>
-                        <td>
-                            <div class="flex items-center gap-2">
-                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
-                                    <i class="fa-solid fa-user"></i>
+                <tbody class="divide-y divide-borderGray/20 text-sm">
+                    <tr class="hover:bg-white/[0.02] transition-all duration-300 group" id="row-1">
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-primaryGold/20 to-primaryGold/5 border border-primaryGold/20 flex items-center justify-center text-primaryGold font-black text-sm">
+                                    YB
                                 </div>
-                                {{ session.client_name }}
+                                <div>
+                                    <p class="font-bold text-gray-100 text-base">Yassine Benani</p>
+                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">Membre VIP</p>
+                                </div>
                             </div>
                         </td>
-                        <td>{{ session.type }}</td>
-                        <td>{{ session.date }}</td>
-                        <td>
-                            <span class="status status-{{ session.status_class|default('pending') }}">
-                                {{ session.status }}
-                            </span>
+                        <td class="px-8 py-6">
+                            <span class="px-3 py-1 bg-darkInput border border-borderGray rounded-lg text-gray-400 font-medium italic">Musculation / Force</span>
                         </td>
-                        <td>
-                            <button class="btn-outline" style="padding: 0.25rem 0.5rem; border:none; color: var(--text-gray);">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <!-- Dummy Data if empty -->
-                    <tr>
-                        <td>
-                            <div class="flex items-center gap-2">
-                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                Ahmet Yildiz
+                        <td class="px-8 py-6 text-center">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-gray-200">15 Janvier</span>
+                                <span class="text-primaryGold text-xs font-bold uppercase tracking-widest">10:00 - 11:30</span>
                             </div>
                         </td>
-                        <td>Crossfit</td>
-                        <td>10 Jan, 14:00</td>
-                        <td><span class="status status-pending">Confirmé</span></td>
-                        <td>...</td>
-                    </tr>
-                     <tr>
-                        <td>
-                            <div class="flex items-center gap-2">
-                                <div style="width: 32px; height: 32px; background: var(--bg-input); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary-gold);">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                Sarah Connor
+                        <td class="px-8 py-6">
+                            <div class="flex justify-end gap-3">
+                                <button onclick="triggerAlert('Yassine Benani', 'accept')" class="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/20 rounded-2xl transition-all font-bold text-xs">
+                                    <i class="fa-solid fa-check"></i> Accepter
+                                </button>
+                                <button onclick="triggerAlert('Yassine Benani', 'reject')" class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-2xl transition-all font-bold text-xs">
+                                    <i class="fa-solid fa-xmark"></i> Refuser
+                                </button>
                             </div>
                         </td>
-                        <td>Yoga</td>
-                        <td>10 Jan, 16:00</td>
-                        <td><span class="status status-active">En cours</span></td>
-                        <td>...</td>
                     </tr>
-                    {% endfor %}
+
+                    <tr class="hover:bg-white/[0.02] transition-all duration-300 group" id="row-2">
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-borderGray flex items-center justify-center text-gray-400 font-black text-sm">
+                                    SA
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-100 text-base text-white/90">Sofia Alami</p>
+                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-tighter italic">Nouveau client</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-8 py-6 text-gray-400 font-medium italic underline decoration-primaryGold/30 underline-offset-4">Cardio Training</td>
+                        <td class="px-8 py-6 text-center text-gray-300 font-bold">
+                             18 Janvier <br>
+                             <span class="text-primaryGold text-xs uppercase font-bold tracking-widest">18:00</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <div class="flex justify-end gap-3">
+                                <button onclick="triggerAlert('Yassine Benani', 'accept')" class="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/20 rounded-2xl transition-all font-bold text-xs">
+                                    <i class="fa-solid fa-check"></i> Accepter
+                                </button>
+                                <button onclick="triggerAlert('Yassine Benani', 'reject')" class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-2xl transition-all font-bold text-xs">
+                                    <i class="fa-solid fa-xmark"></i> Refuser
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function triggerAlert(client, type) {
+        const isAccept = type === 'accept';
+        
+        Swal.fire({
+            title: isAccept ? 'Confirmer ?' : 'Refuser ?',
+            text: `Voulez-vous ${isAccept ? 'valider' : 'annuler'} la séance de ${client} ?`,
+            icon: isAccept ? 'success' : 'warning',
+            showCancelButton: true,
+            confirmButtonColor: isAccept ? '#10b981' : '#ef4444',
+            cancelButtonColor: '#23242a',
+            confirmButtonText: isAccept ? 'Oui, confirmer' : 'Oui, refuser',
+            cancelButtonText: 'Retour',
+            background: '#18191e',
+            color: '#fff',
+            customClass: {
+                popup: 'rounded-[2rem] border border-borderGray shadow-2xl',
+                confirmButton: 'rounded-xl px-6 py-3 font-bold uppercase text-xs tracking-widest',
+                cancelButton: 'rounded-xl px-6 py-3 font-bold uppercase text-xs tracking-widest'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Action effectuée !',
+                    icon: 'success',
+                    background: '#18191e',
+                    color: '#fff',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+</script>
 {% endblock %}
