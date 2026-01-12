@@ -1,0 +1,156 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Planning Pro - Disponibilités{% endblock %}
+{% block page_name %}Mes Disponibilités{% endblock %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto space-y-8 animate-fade-in pb-10">
+
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-white">Planning <span class="text-primaryGold">Pro</span></h1>
+            <p class="text-gray-500 mt-1 font-medium italic">Configurez vos créneaux libres (08:00 — 17:00).</p>
+        </div>
+    </div>
+
+    <form id="dispoForm" action="/coach/dispo/add" method="POST" onsubmit="return validateHours()">
+        <div class="bg-darkCard border border-borderGray p-8 rounded-[2rem] flex flex-wrap lg:flex-nowrap gap-6 items-end shadow-2xl">
+            <div class="space-y-2 flex-1 min-w-[200px]">
+                <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Date du créneau</label>
+                <input type="date" id="dayInput" name="jour" required
+                       class="w-full bg-darkInput border border-borderGray rounded-xl py-3 px-4 text-white focus:border-primaryGold outline-none transition-all">
+            </div>
+
+            <div class="space-y-2 flex-1 min-w-[150px]">
+                <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Heure Début</label>
+                <input type="time" id="startTime" name="debut" required
+                       class="w-full bg-darkInput border border-borderGray rounded-xl py-3 px-4 text-white focus:border-primaryGold outline-none transition-all">
+            </div>
+
+            <div class="space-y-2 flex-1 min-w-[150px]">
+                <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Heure Fin</label>
+                <input type="time" id="endTime" name="fin" required
+                       class="w-full bg-darkInput border border-borderGray rounded-xl py-3 px-4 text-white focus:border-primaryGold outline-none transition-all">
+            </div>
+
+            <button type="submit" class="w-full lg:w-auto px-10 py-3.5 bg-primaryGold hover:bg-yellow-600 text-darkBg font-black rounded-xl uppercase text-xs tracking-[0.2em] transition-all transform hover:-translate-y-1 active:scale-95 shadow-lg shadow-primaryGold/10">
+                Ajouter
+            </button>
+        </div>
+    </form>
+
+    <div class="bg-darkCard border border-borderGray p-6 rounded-[2.5rem] shadow-2xl overflow-hidden">
+        <div id="calendar" class="text-white"></div>
+    </div>
+
+</div>
+
+<style>
+    /* Global Calendar Dark Theme */
+    .fc { --fc-border-color: rgba(255, 255, 255, 0.05); font-family: inherit; }
+    .fc .fc-toolbar-title { font-size: 1.2rem !important; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* Buttons */
+    .fc .fc-button-primary { background: #1f1f23 !important; border: 1px solid #333 !important; text-transform: uppercase; font-size: 10px !important; font-weight: 700 !important; letter-spacing: 1px !important; }
+    .fc .fc-button-primary:hover { background: #cfaa58 !important; color: #18191e !important; border-color: #cfaa58 !important; }
+    .fc .fc-button-active { background: #cfaa58 !important; color: #18191e !important; border: none !important; }
+
+    /* Header Cells */
+    .fc th { padding: 15px 0 !important; background: rgba(255,255,255,0.02); border-bottom: 2px solid #cfaa58 !important; }
+    .fc-col-header-cell-cushion { color: #cfaa58 !important; font-size: 11px !important; font-weight: 800 !important; text-transform: uppercase; }
+
+    /* Time Slots */
+    .fc-timegrid-slot { height: 60px !important; border-bottom: 1px solid rgba(255,255,255,0.02) !important; }
+    .fc-timegrid-slot-label-cushion { color: #666 !important; font-size: 10px !important; font-weight: 600; }
+
+    /* Event Design (Gold Gradient) */
+    .fc-v-event { 
+        background: linear-gradient(135deg, #cfaa58 0%, #967a3f 100%) !important; 
+        border: none !important; border-radius: 12px !important; 
+        box-shadow: 0 4px 15px rgba(207, 170, 88, 0.2); 
+        padding: 5px !important;
+    }
+    .fc-event-title { color: #18191e !important; font-weight: 800 !important; font-size: 10px !important; text-transform: uppercase; }
+    .fc-event-time { color: rgba(24, 25, 30, 0.8) !important; font-weight: 700 !important; }
+
+    /* Current Time Line */
+    .fc-timegrid-now-indicator-line { border-color: #ff4d4d !important; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
+        
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            locale: 'fr',
+            slotMinTime: '08:00:00',
+            slotMaxTime: '18:00:00',
+            allDaySlot: false,
+            height: 'auto',
+            nowIndicator: true,
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek,timeGridDay'
+            },
+            // Static Data for testing style
+            events: [
+                {% for dis in dispo|default([]) %}
+                {
+                    id: '{{ dis.id_dispo }}',
+                    title: 'CRÉNEAU LIBRE',
+                    start: '{{ dis.jour }}T{{ dis.heures_debut }}',
+                    end: '{{ dis.jour }}T{{ dis.heures_fin }}',
+                },
+                {% endfor %}
+                // Example static event if dispo is empty
+                { title: 'CRÉNEAU LIBRE', start: '2026-01-15T09:00:00', end: '2026-01-15T11:00:00' }
+            ],
+            eventClick: function(info) {
+                Swal.fire({
+                    title: 'Supprimer ?',
+                    text: "Voulez-vous retirer ce créneau de vos disponibilités ?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#23242a',
+                    confirmButtonText: 'Oui, supprimer',
+                    background: '#18191e',
+                    color: '#fff'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/coach/dispo/delete/" + info.event.id;
+                    }
+                });
+            }
+        });
+
+        calendar.render();
+
+        // Set min date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dayInput').setAttribute('min', today);
+    });
+
+    function validateHours() {
+        const start = document.getElementById('startTime').value;
+        const end = document.getElementById('endTime').value;
+        const minTime = "08:00";
+        const maxTime = "17:00";
+
+        if (start < minTime || start > maxTime || end < minTime || end > maxTime) {
+            Swal.fire({ icon: 'error', title: 'Hors Plage', text: 'Les séances doivent être entre 08:00 et 17:00.', background: '#18191e', color: '#fff' });
+            return false;
+        }
+        if (start >= end) {
+            Swal.fire({ icon: 'error', title: 'Erreur Heure', text: 'L\'heure de fin doit être après le début.', background: '#18191e', color: '#fff' });
+            return false;
+        }
+        return true;
+    }
+</script>
+{% endblock %}
