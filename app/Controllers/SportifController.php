@@ -5,9 +5,8 @@ use Core\Controller;
 
 class SportifController extends Controller {
     public function index() {
-        $data = [
-            'user_role' => 'sportif'
-        ];
-        $this->render('sportif/dashboard.twig', $data);
+        session_start();
+        \App\Middleware\AuthMiddleware::handleSportif();
+        $this->render('sportif/dashboard.twig');
     }
 }
