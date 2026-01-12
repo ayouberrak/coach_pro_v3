@@ -35,4 +35,20 @@ class CoachRepository {
             throw new \Exception("Erreur lors de la création du coach: " . $e->getMessage());
         }
     }
+
+    public function GetAllCoaches(): array {
+        try {
+            $stmt = $this->db->prepare("SELECT u.*, c.* FROM users u JOIN coach c ON u.id = c.id_coach");
+            $stmt->execute();
+            $coachesData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $coaches = [];
+            foreach ($coachesData as $data) {
+                $coaches[] = Coach::createFromArrayC($data);
+            }
+            return $coaches;
+        } catch (PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération des coaches: " . $e->getMessage());
+        }
+    }
 }
