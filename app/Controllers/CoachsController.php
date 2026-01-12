@@ -1,6 +1,6 @@
 <?php
 namespace App\Controllers;
-
+use \App\Services\CoachServices;
 use Core\Controller;
 use \App\Middleware\AuthMiddleware;
 
@@ -10,7 +10,13 @@ class CoachsController extends Controller {
         $user_role = $_SESSION['user_role'] ;
         AuthMiddleware::handleSportif();
 
-        $this->render('sportif/coaches.twig' , ['user_role' => $user_role]);
+        $coachService = new CoachServices();
+        $coaches = $coachService->getAllCoach();
+
+        $this->render('sportif/coaches.twig' , [
+                        'user_role' => $user_role,
+                        'coaches' => $coaches
+                    ]);
     }
 
 }
