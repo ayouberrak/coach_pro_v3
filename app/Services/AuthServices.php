@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\User;
 use App\Models\Sportif;
+use App\Models\Coach;
 use App\Repository\UserRepository;
 use App\Repository\CoachRepository;
 use App\Repository\SportifRepository;
@@ -34,13 +35,9 @@ class AuthServices {
             $this->userRepository->createUser($user);
 
             if ($data['role'] == 2 && $coachData !== null) { 
-                $coach = new \App\Models\Coach(
-                    null,
-                    $coachData['biographie'],
-                    $coachData['photo'],
-                    (int)$coachData['annees_experience'],
-                    $coachData['certification']
-                );
+                $formData = array_merge($data, $coachData);
+                $coach = Coach::createFromArrayC($formData); 
+
                 return $this->coachRepository->createCoach($coach);
             } elseif ($data['role'] == 1 && $sportifData !== null) { 
                 $formData = array_merge($data, $sportifData);
@@ -55,4 +52,9 @@ class AuthServices {
         }
 
     }
+    public function LoginUser(string $email, string $password): ?User {
+        return $this->userRepository->login($email, $password);
+    }
+
+
 }
