@@ -280,31 +280,8 @@ ul {
 
 .main-content {
     flex: 1;
-    margin-left: 260px;
+    /* margin-left: 260px; */
     padding: 2rem;
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0 1rem;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    color: var(--text-gray);
-    transition: var(--transition-fast);
-}
-
-.sidebar-item:hover,
-.sidebar-item.active {
-    background-color: rgba(207, 170, 88, 0.1);
-    color: var(--primary-gold);
 }
 
 /* Cards Generiques */
