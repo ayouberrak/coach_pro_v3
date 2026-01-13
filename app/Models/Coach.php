@@ -2,35 +2,42 @@
 namespace App\Models;
 
 class Coach extends User {
-    private ?int $id_coach;
+    private ?int $idCoach;
 
     private string $biographie;
     private string $photo;
-    private int $annee_experience;
+    private int $anneeExperience;
     private string $certefications;
 
     
 
     public function __construct(?int $id = null, string $firstName  = '', string $lastName = '', string $email = '', string $passwordHash = '', int $role = 2,
-                                ?int $id_coach = null, string $biographie , string $photo , int $annee_experience, string $certefications ) {
+                                ?int $idCoach = null, string $biographie , string $photo , int $anneeExperience, string $certefications ) {
         parent::__construct($id, $firstName, $lastName, $email, $passwordHash, $role);
-        $this->id_coach = $id_coach;
+        $this->idCoach = $idCoach;
         $this->biographie = $biographie;
         $this->photo = $photo;
-        $this->annee_experience = $annee_experience;
+        $this->anneeExperience = $anneeExperience;
         $this->certefications = $certefications;
     }
-    public function getIdCoach(): int {
-        return $this->id_coach;
+    public function getIdCoach(): ?int {
+        return $this->idCoach;
     }
     public function getBiographie(): string {
         return $this->biographie;
     }
-    public function getPhoto(): string {
+    public function getPhoto(){
         return $this->photo;
     }
+    public function getPhotoPath(): string
+    {
+        return $this->photo
+            ? '/coachPro_v3/public/uploads/' . $this->photo
+            : '/coachPro_v3/public/uploads/default.jpg';
+    }
+
     public function getAnneeExperience(): int {
-        return $this->annee_experience;
+        return $this->anneeExperience;
     }
     public function getCertefications(): string {
         return $this->certefications;
@@ -41,8 +48,8 @@ class Coach extends User {
     public function setPhoto(string $photo): void {
         $this->photo = $photo;
     }
-    public function setAnneeExperience(int $annee_experience): void {
-        $this->annee_experience = $annee_experience;
+    public function setAnneeExperience(int $anneeExperience): void {
+        $this->anneeExperience = $anneeExperience;
     }
     public function setCertefications(string $certefications): void {
         $this->certefications = $certefications;
@@ -59,7 +66,7 @@ class Coach extends User {
             $data['id_coach'] ?? null,
             $data['biographie'] ?? '',
             $data['photo'] ?? '',
-            $data['annee_experience'] ?? 0,
+            $data['anneeExperience'] ?? 0,
             $data['certefications'] ?? ''
         );
     }
