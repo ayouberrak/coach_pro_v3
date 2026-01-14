@@ -19,4 +19,12 @@ class CoachServices {
             throw new Exception("Failed to retrieve coach: " . $e->getMessage());
         }
     }
+
+    public function getCoachById(int $id) {
+        try {
+            return $this->coachRepository->getCoachById($id);
+        } catch (Exception $e) {
+            throw new Exception("Failed to retrieve coach by ID: " . $e->getMessage());
+        }
+    }
 }
