@@ -35,16 +35,31 @@ class Router {
 
 
 
-        $callback = $this->routes[$method][$path] ?? false;
+        $callback = false;
+        $params=[];
+        if (isset($this->routes[$method])) {
+            foreach ($this->routes[$method] as $route => $cb) {
+                $routePattern = preg_replace('/\{[a-zA-Z_][a-zA-Z0-9_]*\}/', '([a-zA-Z0-9_\-]+)', $route);
+                $routePattern = str_replace('/', '\/', $routePattern);
+                if (preg_match('/^' . $routePattern . '$/', $path, $matches)) {
+                    array_shift($matches);
+                    $params = $matches;
+                    $callback = $cb;
+                    break;
+                }
+            }
+        }
+
+
 
         if ($callback) {
             if (is_array($callback)) {
                 $controller = new $callback[0]();
                 $method = $callback[1];
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    return $controller->$method($_POST);
+                    return $controller->$method($_POST , ...$params);
                 } else {
-                    return $controller->$method(); // GET
+                    return $controller->$method(...$params); // GET
                 }
             }
             call_user_func($callback);
