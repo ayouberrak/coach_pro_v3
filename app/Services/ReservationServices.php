@@ -31,4 +31,30 @@ class ReservationServices {
         }
     }
 
+    public function UpdateStatusOnTerminer(){
+        try {
+            return $this->reservationRepository->UpdateStatusOnTerminer();
+        } catch (Exception $e) {
+            throw new Exception("Failed to update reservation statuses: " . $e->getMessage());
+        }
+    }
+
+
+    public function getReservationTerminerByClient(int $idClient) {
+        try {
+            return $this->reservationRepository->getReservationTerminerByClient($idClient);
+        } catch (Exception $e) {
+            throw new Exception("Failed to retrieve reservations: " . $e->getMessage());
+        }
+    }
+
+
+    public function countResByClient(int $idClient) {
+        try {
+            return $this->reservationRepository->countResByClient($idClient);
+        } catch (Exception $e) {
+            throw new Exception("Failed to count reservations: " . $e->getMessage());
+        }
+    }
+
 }
