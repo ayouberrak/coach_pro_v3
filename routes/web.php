@@ -27,7 +27,9 @@ $router->get('/sportif/dashboard', [App\Controllers\SportifController::class, 'i
 $router->get('/sportif/coaches', [App\Controllers\CoachsController::class, 'index']);
 $router->get('/sportif/seances', [App\Controllers\SeanceController::class, 'index']);
 $router->get('/sportif/profile', [App\Controllers\ProfileSportifController::class, 'showProfile']);
+
 $router->get('/sportif/coach/details/{id}', [App\Controllers\DetailsCoachController::class, 'showCoaches']);
+$router->post('/sportif/coach/details/{id}', [App\Controllers\DetailsCoachController::class, 'createReservation']);
 
 $router->get('/login', [App\Controllers\AuthController::class, 'login']);
 
