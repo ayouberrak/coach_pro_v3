@@ -31,26 +31,31 @@
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="flex items-center gap-5">
                             <div class="w-16 h-16 rounded-2xl overflow-hidden border border-borderGray group-hover:border-primaryGold/50 transition-all">
-                                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=200&q=80" class="w-full h-full object-cover">
+                                <img src="{{ reservations.coachPhoto }}" class="w-full h-full object-cover">
                             </div>
                             <div>
-                                <h3 class="text-white font-black text-lg italic tracking-tight">Coach Mike Hammer</h3>
-                                <p class="text-primaryGold text-[10px] font-black uppercase tracking-widest">Musculation • Prise de masse</p>
+                                <h3 class="text-white font-black text-lg italic tracking-tight">{{ reservations.nomCoach }}</h3>
                             </div>
                         </div>
 
                         <div class="flex flex-col md:items-center bg-white/5 px-6 py-3 rounded-2xl border border-borderGray/50">
-                            <span class="text-white font-black text-lg tracking-tighter">Aujourd'hui, 18:00</span>
-                            <span class="text-gray-500 text-[9px] font-black uppercase tracking-[0.2em]">60 Minutes</span>
+                            <span class="text-white font-black text-lg tracking-tighter">{{ reservations.reservation.dateSeance }}</span>
+                            <span class="text-gray-500 text-[9px] font-black uppercase tracking-[0.2em]">{{ reservations.reservation.duree }} Minutes</span>
                         </div>
 
                         <div class="flex items-center gap-4 justify-between md:justify-end">
-                            <span class="bg-green-500/10 text-green-500 text-[9px] font-black uppercase px-4 py-2 rounded-xl border border-green-500/20">
-                                Confirmé
+                            <span class="text-[9px] font-black uppercase px-4 py-2 rounded-xl border 
+                                {% if reservations.status == 'accepte' %}
+                                    bg-green-500/10 text-green-500 border-green-500/20
+                                {% elseif reservations.status == 'en attente' %}
+                                    bg-yellow-500/10 text-yellow-500 border-yellow-500/20
+                                {% elseif reservations.status == 'refuse ' %}
+                                    bg-red-500/10 text-red-500 border-red-500/20
+                                {% else %}
+                                    bg-gray-500/10 text-gray-400 border-gray-500/20
+                                {% endif %}">
+                                {{ reservations.status }}
                             </span>
-                            <button class="text-gray-500 hover:text-red-500 transition-colors">
-                                <i class="fa-solid fa-calendar-xmark text-lg"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -75,26 +80,18 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-borderGray/30 text-sm">
+                    {% for res in resTerminer %}
                         <tr class="hover:bg-white/[0.02] transition-all">
                             <td class="px-8 py-5">
-                                <span class="font-bold text-gray-300">Alex Burn</span>
-                                <p class="text-[9px] text-gray-600 font-black uppercase">Crossfit</p>
+                                <span class="font-bold text-gray-300">{{ res.nomCoach }}</span>
                             </td>
-                            <td class="px-8 py-5 text-gray-500 font-medium italic">05 Jan, 09:00</td>
+                            <td class="px-8 py-5 text-gray-500 font-medium italic">{{ res.reservation.dateSeance }} ,{{ res.reservation.debut }} </td>
                             <td class="px-8 py-5 text-right">
-                                <span class="text-gray-600 text-[10px] font-black uppercase">Terminé</span>
+                                <span class="text-gray-600 text-[10px] font-black uppercase">{{ res.status }}</span>
                             </td>
                         </tr>
-                        <tr class="hover:bg-white/[0.02] transition-all">
-                            <td class="px-8 py-5">
-                                <span class="font-bold text-gray-300">Coach Mike Hammer</span>
-                                <p class="text-[9px] text-gray-600 font-black uppercase">Musculation</p>
-                            </td>
-                            <td class="px-8 py-5 text-gray-500 font-medium italic">02 Jan, 18:00</td>
-                            <td class="px-8 py-5 text-right">
-                                <span class="text-gray-600 text-[10px] font-black uppercase">Terminé</span>
-                            </td>
-                        </tr>
+                    {%endfor%}
+
                     </tbody>
                 </table>
             </div>
