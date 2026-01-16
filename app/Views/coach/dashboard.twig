@@ -66,74 +66,70 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="text-[10px] font-black text-gray-500 uppercase tracking-widest border-b border-borderGray/30 bg-white/[0.01]">
-                        <th class="px-8 py-5">Sportif</th>
-                        <th class="px-8 py-5">Type de séance</th>
-                        <th class="px-8 py-5 text-center">Date & Heure</th>
-                        <th class="px-8 py-5 text-right">Actions rapides</th>
-                    </tr>
+                        <th class="px-8 py-5 text-left">Sportif</th>
+                         <th class="px-8 py-5 text-left">Statut</th>
+                          <th class="px-8 py-5 text-center">Planification</th> 
+                          <th class="px-8 py-5 text-right">Actions rapides</th>
+                     </tr>
                 </thead>
                 <tbody class="divide-y divide-borderGray/20 text-sm">
-                    <tr class="hover:bg-white/[0.02] transition-all duration-300 group" id="row-1">
+                {% for reservation in reservations %}
+                    <tr class="hover:bg-white/[0.02] transition-all duration-300 group border-b border-white/5" id="row-{{ reservation.id }}">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-primaryGold/20 to-primaryGold/5 border border-primaryGold/20 flex items-center justify-center text-primaryGold font-black text-sm">
-                                    YB
+                                    C
                                 </div>
                                 <div>
-                                    <p class="font-bold text-gray-100 text-base">Yassine Benani</p>
-                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-tighter">Membre VIP</p>
+                                    <p class="font-bold text-gray-100 text-base leading-tight">{{ reservation.nomClient }}</p>
+                                    <span class="text-xs text-gray-500 italic">Client VIP</span>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6">
-                            <span class="px-3 py-1 bg-darkInput border border-borderGray rounded-lg text-gray-400 font-medium italic">Musculation / Force</span>
-                        </td>
-                        <td class="px-8 py-6 text-center">
-                            <div class="flex flex-col">
-                                <span class="font-bold text-gray-200">15 Janvier</span>
-                                <span class="text-primaryGold text-xs font-bold uppercase tracking-widest">10:00 - 11:30</span>
-                            </div>
-                        </td>
-                        <td class="px-8 py-6">
-                            <div class="flex justify-end gap-3">
-                                <button onclick="triggerAlert('Yassine Benani', 'accept')" class="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/20 rounded-2xl transition-all font-bold text-xs">
-                                    <i class="fa-solid fa-check"></i> Accepter
-                                </button>
-                                <button onclick="triggerAlert('Yassine Benani', 'reject')" class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-2xl transition-all font-bold text-xs">
-                                    <i class="fa-solid fa-xmark"></i> Refuser
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
 
-                    <tr class="hover:bg-white/[0.02] transition-all duration-300 group" id="row-2">
                         <td class="px-8 py-6">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-borderGray flex items-center justify-center text-gray-400 font-black text-sm">
-                                    SA
-                                </div>
-                                <div>
-                                    <p class="font-bold text-gray-100 text-base text-white/90">Sofia Alami</p>
-                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-tighter italic">Nouveau client</p>
+                            <div class="flex items-center gap-2">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                                </span>
+                                <span class="px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-500 text-xs font-bold uppercase tracking-wider">
+                                    En Attente
+                                </span>
+                            </div>
+                        </td>
+
+                        <td class="px-8 py-6 text-center">
+                            <div class="flex flex-col gap-1">
+                                <span class="font-bold text-gray-200 text-sm">
+                                    <i class="fa-regular fa-calendar-days mr-1 text-primaryGold"></i> {{ reservation.reservation.dateSeance }}
+                                </span>
+                                <div class="flex items-center justify-center gap-2">
+                                    <span class="text-primaryGold text-xs font-bold tracking-widest">{{reservation.reservation.debut}}</span>
+                                    <span class="text-[10px] bg-white/5 px-2 py-0.5 rounded text-gray-400 border border-white/10">{{reservation.reservation.duree}} min</span>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-gray-400 font-medium italic underline decoration-primaryGold/30 underline-offset-4">Cardio Training</td>
-                        <td class="px-8 py-6 text-center text-gray-300 font-bold">
-                             18 Janvier <br>
-                             <span class="text-primaryGold text-xs uppercase font-bold tracking-widest">18:00</span>
-                        </td>
+
                         <td class="px-8 py-6">
                             <div class="flex justify-end gap-3">
-                                <button onclick="triggerAlert('Yassine Benani', 'accept')" class="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/20 rounded-2xl transition-all font-bold text-xs">
-                                    <i class="fa-solid fa-check"></i> Accepter
-                                </button>
-                                <button onclick="triggerAlert('Yassine Benani', 'reject')" class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-2xl transition-all font-bold text-xs">
-                                    <i class="fa-solid fa-xmark"></i> Refuser
-                                </button>
+                                <a href="{{url('/coach/dashboard/accept/'~ reservation.reservation.idReservation)}}">
+                                    <button class="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/20 rounded-2xl transition-all font-bold text-xs group/btn">
+                                        <i class="fa-solid fa-check transition-transform group-hover/btn:scale-125"></i> Accepter
+                                    </button>   
+                                </a>
+
+                                <a href="{{url('/coach/dashboard/refuse/'~ reservation.reservation.idReservation)}}">
+                                    <button class="flex items-center gap-2 px-5 py-2.5 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-2xl transition-all font-bold text-xs group/btn">
+                                        <i class="fa-solid fa-xmark transition-transform group-hover/btn:scale-125"></i> Refuser
+                                    </button>
+                                </a>
+
                             </div>
                         </td>
                     </tr>
+                {% endfor %}
+
                 </tbody>
             </table>
         </div>
