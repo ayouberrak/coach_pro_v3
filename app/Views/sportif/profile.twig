@@ -23,13 +23,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Prénom</label>
-                    <input type="text" name="prenom" value="{{ sportif.lastName }}" 
+                    <input type="text" name="lastName" value="{{ sportif.lastName }}" 
                            class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight">
                 </div>
 
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Nom de famille</label>
-                    <input type="text" name="nom" value="{{ user.nom }}" 
+                    <input type="text" name="firstName" value="{{ sportif.firstName }}" 
                            class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight">
                 </div>
 
@@ -41,7 +41,7 @@
 
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Numéro de Téléphone</label>
-                    <input type="tel" name="telephone" value="{{ sportif.numeroTelephone }}" 
+                    <input type="tel" name="numero_telephone" value="{{ sportif.numeroTelephone }}" 
                            class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold tracking-tight"
                            placeholder="+212 600-000000">
                 </div>
@@ -59,7 +59,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-2">Nouveau Mot de passe</label>
-                    <input type="password" name="new_password" placeholder="••••••••"
+                    <input type="password" name="passwordHash" placeholder="••••••••"
                            class="w-full bg-darkInput border border-borderGray rounded-2xl py-4 px-5 text-white focus:border-primaryGold outline-none transition-all font-bold">
                     <p class="text-[9px] text-gray-600 font-bold uppercase tracking-tighter ml-2">Laissez vide si vous ne voulez pas changer</p>
                 </div>
