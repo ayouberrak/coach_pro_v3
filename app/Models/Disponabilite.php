@@ -6,16 +6,16 @@ class Disponabilite {
 
     private int $id_coach;
 
-    private string $date_dispo;
-    private string $heure_debut;
-    private string $heure_fin;
+    private string $dateDispo;
+    private string $heureDebut;
+    private string $heureFin;
 
-    public function __construct(?int $id_dispo = null, int $id_coach , string $date_dispo , string $heure_debut , string $heure_fin ) {
+    public function __construct(?int $id_dispo = null, int $id_coach , string $dateDispo , string $heureDebut , string $heureFin ) {
         $this->id_dispo = $id_dispo;
         $this->id_coach = $id_coach;
-        $this->date_dispo = $date_dispo;
-        $this->heure_debut = $heure_debut;
-        $this->heure_fin = $heure_fin;
+        $this->dateDispo = $dateDispo;
+        $this->heureDebut = $heureDebut;
+        $this->heureFin = $heureFin;
     }
     public function getIdDispo(): int {
         return $this->id_dispo;
@@ -24,12 +24,23 @@ class Disponabilite {
         return $this->id_coach;
     }
     public function getDateDispo(): string {
-        return $this->date_dispo;
+        return $this->dateDispo;
     }
     public function getHeureDebut(): string {
-        return $this->heure_debut;
+        return $this->heureDebut;
     }
     public function getHeureFin(): string {
-        return $this->heure_fin;
+        return $this->heureFin;
+    }
+
+
+    public static function arrayToDisponabilite(array $data , int $id): Disponabilite {
+        return new Disponabilite(
+            $data['id_dispo'] ?? null,
+            $id,
+            $data['jour'],
+            $data['debut'],
+            $data['fin']
+        );
     }
 }
