@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use Config\Database;
+use  App\Models\Disponabilite;
 use PDO;
 use Exception;
 
@@ -23,7 +24,7 @@ class DispoRepository {
 
             $dispos = [];
             foreach ($disposData as $data) {
-                $dispos[] = new \App\Models\Disponabilite(
+                $dispos[] = new Disponabilite(
                     $data['id_dispo'],
                     $data['id_coach'],
                     $data['jour'],
@@ -34,6 +35,20 @@ class DispoRepository {
             return $dispos;
         } catch (Exception $e) {
             throw new Exception("Erreur lors de la récupération des disponibilités: " . $e->getMessage());
+        }
+    }
+
+
+    public function create(Disponabilite $dispo): bool {
+        try {
+            $stmt = $this->db->prepare("INSERT INTO disponible (id_coach, jour, heures_debut, heures_fin) VALUES (:id_coach, :jour, :heures_debut, :heures_fin)");
+            $stmt->bindValue(':id_coach', $dispo->getIdCoach(), PDO::PARAM_INT);
+            $stmt->bindValue(':jour', $dispo->getDateDispo(), PDO::PARAM_STR);
+            $stmt->bindValue(':heures_debut', $dispo->getHeureDebut(), PDO::PARAM_STR);
+            $stmt->bindValue(':heures_fin', $dispo->getHeureFin(), PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de la création de la disponibilité: " . $e->getMessage());
         }
     }
 
