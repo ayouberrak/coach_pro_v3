@@ -10,8 +10,10 @@ class ReservationController extends Controller {
         session_start();
         AuthMiddleware::handleCoach();
          $user_role = $_SESSION['user_role'] ;
+         $resServices = new ReservationServices();
+         $reservations = $resServices->getReservationByCoachId($_SESSION['user_id']);
 
-        $this->render('coach/reservations.twig', ['user_role' => $user_role]);
+        $this->render('coach/reservations.twig', ['user_role' => $user_role , 'reservations' => $reservations]);
     }
 
 
